@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-
 import uk.ac.hope.mcse.android.coursework.databinding.FragmentSecondBinding;
 
 public class SecondFragment extends Fragment {
@@ -28,6 +26,15 @@ public class SecondFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Get the note details from the arguments
+        Bundle args = getArguments();
+        if (args != null) {
+            String title = args.getString("title", "No Title");
+            String description = args.getString("description", "No Description");
+            binding.textViewTitle.setText(title);
+            binding.textViewDescription.setText(description);
+        }
 
         binding.buttonSecond.setOnClickListener(v ->
                 NavHostFragment.findNavController(SecondFragment.this)

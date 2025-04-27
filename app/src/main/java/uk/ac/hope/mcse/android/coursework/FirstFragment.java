@@ -14,9 +14,7 @@ import java.util.List;
 import uk.ac.hope.mcse.android.coursework.databinding.FragmentFirstBinding;
 import uk.ac.hope.mcse.android.coursework.model.Note;
 
-/**
- *
- */
+
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
@@ -27,25 +25,25 @@ public class FirstFragment extends Fragment {
         noteList.add(note);
     }
 
-//    @Override
-//    public View onCreateView(
-//            @NonNull LayoutInflater inflater, ViewGroup container,
-//            Bundle savedInstanceState
-//    ) {
-//
-//        binding = FragmentFirstBinding.inflate(inflater, container, false);
-//        return binding.getRoot();
-//
-//    }
-
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         return binding.getRoot();
+
     }
+
+//    @Override
+//    public View onCreateView(
+//            LayoutInflater inflater, ViewGroup container,
+//            Bundle savedInstanceState
+//    ) {
+//        binding = FragmentFirstBinding.inflate(inflater, container, false);
+//        return binding.getRoot();
+//    }
 
 //    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 //        super.onViewCreated(view, savedInstanceState);
@@ -61,13 +59,28 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Set up RecyclerView
-        RecyclerView recyclerView = binding.getRoot().findViewById(R.id.recyclerView);
-//        if (recyclerView == null) {
-//        }
+        RecyclerView recyclerView = binding.recyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        noteAdapter = new NoteAdapter(noteList, note -> {
+            // Pass the selected note to SecondFragment
+            Bundle bundle = new Bundle();
+            bundle.putString("title", note.getTitle());
+            bundle.putString("description", note.getDescription());
+            NavHostFragment.findNavController(FirstFragment.this)
+                    .navigate(R.id.action_FirstFragment_to_SecondFragment, bundle);
+        });
+        recyclerView.setAdapter(noteAdapter);
 
         binding.buttonFirst.setOnClickListener(v ->
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh the list when returning to this fragment
+        noteAdapter.updateNotes(noteList);
     }
 
     @Override
