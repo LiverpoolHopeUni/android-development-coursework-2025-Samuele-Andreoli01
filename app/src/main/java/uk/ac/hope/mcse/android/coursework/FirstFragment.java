@@ -25,34 +25,20 @@ public class FirstFragment extends Fragment {
         noteList.add(note);
     }
 
+    public static void updateNote(int position, Note updatedNote) {
+        if (position >= 0 && position < noteList.size()) {
+            noteList.set(position, updatedNote);
+        }
+    }
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
     }
-
-//    @Override
-//    public View onCreateView(
-//            LayoutInflater inflater, ViewGroup container,
-//            Bundle savedInstanceState
-//    ) {
-//        binding = FragmentFirstBinding.inflate(inflater, container, false);
-//        return binding.getRoot();
-//    }
-
-//    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        binding.buttonFirst.setOnClickListener(v ->
-//                NavHostFragment.findNavController(FirstFragment.this)
-//                        .navigate(R.id.action_FirstFragment_to_SecondFragment)
-//        );
-//    }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -62,8 +48,9 @@ public class FirstFragment extends Fragment {
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         noteAdapter = new NoteAdapter(noteList, note -> {
-            // Pass the selected note to SecondFragment
+            int position = noteList.indexOf(note);
             Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
             bundle.putString("title", note.getTitle());
             bundle.putString("description", note.getDescription());
             NavHostFragment.findNavController(FirstFragment.this)
