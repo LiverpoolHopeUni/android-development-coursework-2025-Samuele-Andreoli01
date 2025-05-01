@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="yellow_header">#FFD700</color>    <!-- Bright yellow for the header -->
+    <color name="yellow_save_button">#FFD700</color> <!-- Gold yellow for the Save button -->
+    <color name="yellow_fab">#FFFF00</color>        <!-- Amber yellow for the FAB FFC107-->
 </resources>
