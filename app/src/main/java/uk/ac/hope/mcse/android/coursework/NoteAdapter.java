@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.List;
 import uk.ac.hope.mcse.android.coursework.model.Note;
 
@@ -19,7 +21,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     public NoteAdapter(List<Note> noteList, OnNoteClickListener listener) {
-        this.noteList = noteList;
+        this.noteList = new ArrayList<>(noteList);
         this.listener = listener;
     }
 
@@ -27,7 +29,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
+                .inflate(R.layout.note_item, parent, false);
         return new NoteViewHolder(view);
     }
 
@@ -44,7 +46,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     public void updateNotes(List<Note> newNotes) {
-        this.noteList = newNotes;
+//        this.noteList = newNotes;
+        this.noteList.clear();
+        this.noteList.addAll(newNotes);
         notifyDataSetChanged();
     }
 
@@ -53,7 +57,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
         NoteViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(android.R.id.text1);
+            textView = itemView.findViewById(R.id.noteTitle);
         }
     }
 }
