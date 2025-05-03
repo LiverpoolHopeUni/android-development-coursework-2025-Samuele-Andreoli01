@@ -7,12 +7,31 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="2dp">
 
-    <TextView
-        android:id="@+id/noteTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/noteTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <ImageView
+            android:id="@+id/deleteIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_delete"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="8dp" />
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

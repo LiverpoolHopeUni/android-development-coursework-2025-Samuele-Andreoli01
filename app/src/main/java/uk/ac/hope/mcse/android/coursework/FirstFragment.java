@@ -31,6 +31,12 @@ public class FirstFragment extends Fragment {
         }
     }
 
+    public static void deleteNote(int position) {
+        if (position >= 0 && position < noteList.size()) {
+            noteList.remove(position);
+        }
+    }
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -55,6 +61,10 @@ public class FirstFragment extends Fragment {
             bundle.putString("description", note.getDescription());
             NavHostFragment.findNavController(FirstFragment.this)
                     .navigate(R.id.action_FirstFragment_to_SecondFragment, bundle);
+        },
+    position -> {
+            deleteNote(position);
+            noteAdapter.updateNotes(noteList);
         });
         recyclerView.setAdapter(noteAdapter);
 
