@@ -18,19 +18,22 @@ import uk.ac.hope.mcse.android.coursework.model.Note;
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
-    private static List<Note> noteList = new ArrayList<>();
+    private static List<Note> noteList = new ArrayList<>(); // Shared list to store all notes
     private NoteAdapter noteAdapter;
 
+    // Add a new note to the list
     public static void addNote(Note note) {
         noteList.add(note);
     }
 
+    // Update an existing note at the specified position
     public static void updateNote(int position, Note updatedNote) {
         if (position >= 0 && position < noteList.size()) {
             noteList.set(position, updatedNote);
         }
     }
 
+    // Delete a note at the specified position
     public static void deleteNote(int position) {
         if (position >= 0 && position < noteList.size()) {
             noteList.remove(position);
@@ -42,6 +45,7 @@ public class FirstFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+        // Inflate the layout and bind views using ViewBinding
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -54,6 +58,7 @@ public class FirstFragment extends Fragment {
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         noteAdapter = new NoteAdapter(noteList, note -> {
+            // Handle note click to navigate to details
             int position = noteList.indexOf(note);
             Bundle bundle = new Bundle();
             bundle.putInt("position", position);
@@ -63,14 +68,11 @@ public class FirstFragment extends Fragment {
                     .navigate(R.id.action_FirstFragment_to_SecondFragment, bundle);
         },
     position -> {
+            // Handle note deletion and update the adapter
             deleteNote(position);
             noteAdapter.updateNotes(noteList);
         });
         recyclerView.setAdapter(noteAdapter);
-
-//        binding.buttonFirst.setOnClickListener(v ->
-//                NavHostFragment.findNavController(FirstFragment.this)
-//                        .navigate(R.id.action_FirstFragment_to_SecondFragment));
     }
 
     @Override
